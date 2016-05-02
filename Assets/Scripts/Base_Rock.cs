@@ -1,7 +1,9 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Player_Rock : MonoBehaviour {
+public abstract class Player_Rock : MonoBehaviour {
+
+    protected float attack, defense, speed, luck, health;
 
 	// Use this for initialization
 	void Start () {
