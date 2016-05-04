@@ -8,7 +8,7 @@ public class ItemPencil : InventoryItem
 	{
 		spriteName = "Pencil";
 		itemName = "Pencil";
-		itemDescription = "A long wooden pencil.\n\n[Weapon : Single Handed]";
+		itemDescription = "A long wooden pencil with a pointed graphite tip.";
 		itemType = ItemTypes.WEAPON_ONE_HANDED;
 		itemCost = 500;
 

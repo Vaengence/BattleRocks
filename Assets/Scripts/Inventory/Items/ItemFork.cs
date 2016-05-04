@@ -8,7 +8,7 @@ public class ItemFork : InventoryItem
 	{
 		spriteName = "Fork";
 		itemName = "Fork";
-		itemDescription = "A large steel fork.\n\n[Weapon : Two Handed]";
+		itemDescription = "A large 3 pronged steel table fork.";
 		itemType = ItemTypes.WEAPON_TWO_HANDED;
 		itemCost = 800;
 
