@@ -8,7 +8,7 @@ public class ItemToothPick : InventoryItem
 	{
 		spriteName = "ToothPick";
 		itemName = "Tooth Pick";
-		itemDescription = "A small and pointy splint of wood.\n\n[Weapon : Single Handed]";
+		itemDescription = "A small and pointy splint of wood.";
 		itemType = ItemTypes.WEAPON_ONE_HANDED;
 		itemCost = 200;
 

@@ -3,22 +3,26 @@ using System.Collections;
 using UnityEngine.UI;
 using System.Collections.Generic;
 
+using UnityEngine.SceneManagement;
+
 public class InventoryMenu : MonoBehaviour
 {
 
 	[SerializeField]
-	private Dropdown slotMenu = null;
+	private ToggleList slotMenu = null;
+
 	[SerializeField]
-	private Dropdown itemMenu = null;
+	private ToggleList itemMenu = null;
 
 	[SerializeField]
 	private Text itemDescription = null;
 
 	[SerializeField]
-	private Text itemEquipped = null;
+	private Text itemStats = null;
 
 	[SerializeField]
 	private Inventory inventoryRef = null;
+
 
 	// Use this for initialization
 	void Start () 
@@ -26,104 +30,136 @@ public class InventoryMenu : MonoBehaviour
 		inventoryRef = Inventory.instance;
 
 		// For Testing only. If inventory is empty, Add some test items and save inventory
-//		if (inventoryRef.ItemListCount == 0)
-//		{
-//			inventoryRef.AddItem <ItemToothPick> ();
-//			inventoryRef.AddItem <ItemToothPick> ();
-//			inventoryRef.AddItem <ItemPencil> ();
-//			inventoryRef.AddItem <ItemPencil> ();
-//			inventoryRef.AddItem <ItemFork> ();
-//
-//			inventoryRef.SaveInventory (true);
-//		}
+		if (inventoryRef.ItemListCount == 0)
+		{
+			inventoryRef.AddItem <ItemToothPick> ();
+			inventoryRef.AddItem <ItemToothPick> ();
+			inventoryRef.AddItem <ItemPencil> ();
+			inventoryRef.AddItem <ItemPencil> ();
+			inventoryRef.AddItem <ItemFork> ();
+
+			inventoryRef.SaveInventory (true);
+		}
 
 		LoadItemMenu ();
-		LoadSlotMenu ();
 
 		OnItemSelect ();
-		OnSlotSelect ();
+		RefreshSlotText();
 	}
 
 
 	void LoadItemMenu()
 	{
+		GameObject toggleFirst = Resources.Load("Prefabs/UI_Toggle_Button") as GameObject;
+
+		toggleFirst.GetComponentInChildren<Text> ().text = inventoryRef.GetInventoryItem (0).ItemName;
 
 		for (int i = 0; i < inventoryRef.ItemListCount; ++i)
 		{
-			itemMenu.options.Add (new Dropdown.OptionData (inventoryRef.GetInventoryItem (i).ItemName));
+			GameObject toggleObject = Instantiate (toggleFirst);
+			RectTransform toggleRect = toggleObject.transform as RectTransform;
+
+			toggleObject.transform.SetParent (itemMenu.gameObject.transform, false);
+
+			toggleRect.anchoredPosition += new Vector2 (0, -(i*25));
+
+			toggleObject.GetComponentInChildren<Text> ().text = inventoryRef.GetInventoryItem (i).ItemName;
+
+			itemMenu.toggleButtons.Add (toggleObject.GetComponent<Toggle>());
 		}
-
-		itemMenu.captionText = itemMenu.captionText; // Force drop down caption refresh
+			
+		itemMenu.ToggleInit ();
 	}
-		
-	void LoadSlotMenu()
+
+
+	private string UpdateStats(InventoryItem item)
 	{
+		string text;
 
-		slotMenu.options.Add (new Dropdown.OptionData ("Weapon Left"));
-		slotMenu.options.Add (new Dropdown.OptionData ("Weapon Right"));
-		slotMenu.options.Add (new Dropdown.OptionData ("Armour Head"));
-		slotMenu.options.Add (new Dropdown.OptionData ("Armour Body"));
-		slotMenu.options.Add (new Dropdown.OptionData ("Armour Misc"));
+		text = "Stock : " + item.itemStock + "\t|\tEquipped : " + item.numEquipped + "\n";
 
-		slotMenu.captionText = slotMenu.captionText; // Force drop down caption refresh
+		text += "\nAttack : \t\t+" + item.Attack;
+		text += "\nDefence : \t+" + item.Defence;
+		text += "\nSpeed : \t\t+" + item.Speed;
+		text += "\nLuck : \t\t\t+" + item.Luck;
+		text += "\nHealth : \t\t+" + item.Health;
+
+		return text;
 	}
-
 
 	public void OnItemSelect()
 	{
 		//Show selected Item stats on screen
 
-		if (inventoryRef.GetInventoryItem (itemMenu.value) != null)
+		if (inventoryRef.GetInventoryItem (itemMenu.SelectedToggle) != null)
 		{
-			itemDescription.text = inventoryRef.GetInventoryItem (itemMenu.value).ItemDescription;
+			InventoryItem item = inventoryRef.GetInventoryItem (itemMenu.SelectedToggle);
+
+			itemDescription.text = item.ItemDescription + "\n\n[" + item.ItemType.ToString ().ToLower() + "]";
 		}
 
+		itemStats.text = UpdateStats (inventoryRef.GetInventoryItem(itemMenu.SelectedToggle));
 	}
 
-	public void OnSlotSelect()
+
+
+	public void RefreshSlotText()
 	{
-		if (inventoryRef.GetSlotItem ((Inventory.SlotTypes)slotMenu.value) != null)
+
+		for (int i = 0; i < slotMenu.toggleButtons.Count; ++i)
 		{
-			itemEquipped.text = inventoryRef.GetSlotItem ((Inventory.SlotTypes)slotMenu.value).ItemName;
+			InventoryItem item = inventoryRef.GetSlotItem ((Inventory.SlotTypes)i);
+
+			if(item != null)
+			{
+				slotMenu.toggleButtons[i].gameObject.GetComponentInChildren<Text> ().text = (Inventory.SlotTypes)i + "\n" + " > " + item.ItemName;
+			}
+			else
+			{
+				slotMenu.toggleButtons[i].gameObject.GetComponentInChildren<Text> ().text = (Inventory.SlotTypes)i + "\n" + " > None";
+			}
+
 		}
-		else
-		{
-			itemEquipped.text = "None";
-		}
+			
 	}
+
+
 
 	public void OnEquipButtonPress()
 	{
-		if (inventoryRef.GetInventoryItem (itemMenu.value) != null)
+
+		if (inventoryRef.GetInventoryItem (itemMenu.SelectedToggle) != null)
 		{
-			inventoryRef.EquipSlot ((Inventory.SlotTypes)slotMenu.value, inventoryRef.GetInventoryItem (itemMenu.value));
+			inventoryRef.EquipSlot ((Inventory.SlotTypes)slotMenu.SelectedToggle, inventoryRef.GetInventoryItem (itemMenu.SelectedToggle));
+
+			RefreshSlotText ();
 		}
 
-		OnSlotSelect ();
-
-		//Show combined stat values for players equipped items (Attack + 12 etc...)
 	}
 
 	public void OnUnEquipButtonPress()
 	{
-		if (inventoryRef.GetSlotItem ((Inventory.SlotTypes)slotMenu.value) != null)
+		if (inventoryRef.GetSlotItem ((Inventory.SlotTypes)slotMenu.SelectedToggle) != null)
 		{
-			inventoryRef.UnEquipSlot ((Inventory.SlotTypes)slotMenu.value);
+			inventoryRef.UnEquipSlot ((Inventory.SlotTypes)slotMenu.SelectedToggle);
 		}
-
-		OnSlotSelect ();
+			
+		RefreshSlotText ();
 	}
 
 	public void OnMenuExit()
 	{
+		
 	inventoryRef.SaveInventory (true);
+
+	SceneManager.UnloadScene (SceneManager.GetActiveScene ().buildIndex);
 
 	}
 
 	// Update is called once per frame
 	void Update () 
 	{
-	
+
 	}
 
 }
