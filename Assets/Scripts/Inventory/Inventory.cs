@@ -35,8 +35,6 @@ public class Inventory : MonoBehaviour
 			Destroy (this.gameObject);
 		}
 
-		DontDestroyOnLoad (this.gameObject);
-
 		LoadInventory ();
 	}
 
@@ -276,11 +274,6 @@ public class Inventory : MonoBehaviour
 		}
 	}
 
-	public void GetSlotStatTotals()
-	{
-
-	}
-
 	// Add functionality to load inventory and slots !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 	public void LoadInventory()
 	{
@@ -338,6 +331,10 @@ public class Inventory : MonoBehaviour
 			if (itemSlot [i] != null)
 			{
 				PlayerPrefs.SetString ("SlotItem" + i, itemSlot [i].GetType ().ToString ());
+			}
+			else
+			{
+				PlayerPrefs.SetString ("SlotItem" + i, "Null");
 			}
 		}
 
