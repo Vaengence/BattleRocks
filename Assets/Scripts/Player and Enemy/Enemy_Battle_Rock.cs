@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Enemy_Rock : MonoBehaviour {
+public class Enemy_Rock : Base_Rock {
 
 	// Use this for initialization
 	void Start () {
@@ -12,4 +12,9 @@ public class Enemy_Rock : MonoBehaviour {
 	void Update () {
 	
 	}
+
+    public override void Combat()
+    {
+       
+    }
 }
