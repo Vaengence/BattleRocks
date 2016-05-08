@@ -8,7 +8,6 @@ public class Inventory : MonoBehaviour
 
 	public static Inventory instance = null;
 
-
 	public enum SlotTypes : int
 	{
 		WEAPON_LEFT = 0,

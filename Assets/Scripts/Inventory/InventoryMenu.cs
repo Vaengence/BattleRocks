@@ -152,9 +152,10 @@ public class InventoryMenu : MonoBehaviour
 		
 	inventoryRef.SaveInventory (true);
 
-	SceneManager.UnloadScene (SceneManager.GetActiveScene ().buildIndex);
+        SceneManager.LoadScene("OptionsMenu");
+        //SceneManager.UnloadScene (SceneManager.GetActiveScene ().buildIndex);
 
-	}
+    }
 
 	// Update is called once per frame
 	void Update () 
