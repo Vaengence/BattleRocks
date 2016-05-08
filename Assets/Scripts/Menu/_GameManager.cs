@@ -78,6 +78,11 @@ public class _GameManager : MonoBehaviour
         }
         LoadGame();                                             // - Call LoadGame to Load Save Data.
         DontDestroyOnLoad(gameObject);                          // - Prevents this object being destoried between scenes.
+
+        // For Testing
+        playerName = "Michael";                                 
+        currentLives = 10;
+
     }
     // ---------------------------- UPDATE ----------------------------
     void Update () 
@@ -144,5 +149,21 @@ public class _GameManager : MonoBehaviour
     public void ResetGame()
     {
         // NOTE: ADD - add any variable that need to be reset at end of level
+    }
+
+    // This Function handles the deletion of the life internally to the game manager and will return True if Successful, otherwise will return false, indicating
+    // that the player has run out of lives
+    public bool LoseLife()  
+    {
+        if (currentLives > 0)
+        {
+            currentLives--;
+            return true;
+        }
+        else
+        {
+            currentLives--;
+            return false;
+        }
     }
 }
