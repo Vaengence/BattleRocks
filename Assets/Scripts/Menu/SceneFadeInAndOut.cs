@@ -40,7 +40,7 @@ public class SceneFadeInAndOut : MonoBehaviour
 		if(GetComponent<SpriteRenderer>().color.a >= 0.99f)
 		{
             // ... reload the scene.
-            Debug.Log("Testing screen load.");
+            //Debug.Log("Testing screen load.");
             SceneManager.LoadScene(sceneNameToLoad);
 		}
 		// Lerp the colour of the texture between itself and white.
