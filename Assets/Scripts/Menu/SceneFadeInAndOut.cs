@@ -19,14 +19,14 @@ public class SceneFadeInAndOut : MonoBehaviour
 	}
 	void Update()
 	{
-		/*if(sceneStarting)
+        if(sceneStarting)
 		{
 			StartScene();	// ... call the StartScene function.
 		}
 		if(sceneEnding)
 		{
 			FadeToWhite();
-		}*/
+		}
 	}
 
 	void FadeToClear()
