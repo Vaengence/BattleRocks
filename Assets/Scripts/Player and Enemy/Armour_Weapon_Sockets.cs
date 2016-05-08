@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class ArmourSocket : MonoBehaviour {
+public class Armour_Weapon_Sockets : MonoBehaviour {
     public GameObject HeadSocket;
     public GameObject ArmourBody;
     public GameObject EyeSocket;
