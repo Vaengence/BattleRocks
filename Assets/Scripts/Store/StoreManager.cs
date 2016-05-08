@@ -22,6 +22,7 @@ public class StoreManager : MonoBehaviour {
     // Use this for initialization
     void Start ()
     {
+        
         ButtonSprites = Resources.LoadAll<Sprite>("Sprites\\Game\\Character Profile\\Custom Item Icons\\");
         StoreObjects = new StoreObjectsStruct[ButtonSprites.Length];
 
