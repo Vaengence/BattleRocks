@@ -14,23 +14,21 @@ public class Battle_Rock_Player : Base_Rock {
     public void Start ()
     {
         maxHealth = 50;
-        currentHealth = 25;
+        currentHealth = maxHealth;
         attack = 15;
         defense = 5;
         speed = 2;
         luck = 1;
 
-        cachedY = healthTransform.position.y;
-        maxXValue = healthTransform.position.x;
-        minXValue = healthTransform.position.x - healthTransform.rect.width;
+        healthBar.maxValue = maxHealth;
+        healthBar.value = maxHealth;
+    }
 
-         
-	}
 	
 	// Update is called once per frame
 	void Update ()
     {
-       
+        
     }
 
 //Calculates total damage to enemy based on Stats
