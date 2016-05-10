@@ -21,7 +21,7 @@ public class BattleManager : MonoBehaviour {
         hasWon = false;
         hasLost = false;
         isTie = false;
-
+         
         playerRock.GetComponent<Battle_Rock_Player>().Start();
         enemyRock.GetComponent<Battle_Rock_Enemy>().Start();
 

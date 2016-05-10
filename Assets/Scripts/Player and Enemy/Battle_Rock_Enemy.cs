@@ -14,16 +14,16 @@ public class Battle_Rock_Enemy : Base_Rock {
     public void Start ()
     {
 
-        cachedY = healthTransform.position.y;
-        maxXValue = healthTransform.position.x;
-        minXValue = healthTransform.position.x - healthTransform.rect.width;
+        
 
         maxHealth = 50;
-        currentHealth = 25;
+        currentHealth = maxHealth;
         attack = 15;
         defense = 5;
         speed = 2;
 
+        healthBar.maxValue = maxHealth;
+        healthBar.value = maxHealth;
     }
 
     void Update()
