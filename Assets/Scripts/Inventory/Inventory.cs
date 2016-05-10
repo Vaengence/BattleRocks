@@ -17,14 +17,28 @@ public class Inventory : MonoBehaviour
 		ARMOUR_MISC = 4
 	}
 			
-	private InventoryItem[] itemSlot = new InventoryItem[5];
-	private List<InventoryItem> itemList = new List<InventoryItem>();
+	// An array for the 5 different item slots
+	private int[] itemSlot = new int[5];
 
+	// A list for containing the player's inventory items
+	// Each element will contain an index value that points to the item stored in the GameItems.gameItems[] array
+	private List<int> itemList = new List<int>();
+
+	// Return the number of elements in the inventory list
 	public int ItemListCount{get{return itemList.Count;}}
+
+	//array of number of items in stock/equipped. Array index is based on GameItems array, not InventoryItems array!
+	private int[] numStock;
+	private int[] numEquipped;
+
+	// numStock/numEquipped Getter Methods
+	public int NumStock(int index) {return numStock[index];}
+	public int NumEquipped(int index) {return numEquipped[index];}
 
 
 	void Awake()
 	{
+		// create a static instance of this class if null, otherwise destroy this gameObject 
 		if (instance == null)
 		{
 			instance = this;
@@ -34,6 +48,14 @@ public class Inventory : MonoBehaviour
 			Destroy (this.gameObject);
 		}
 
+		// Don't destroy this gameObject between scenes
+		DontDestroyOnLoad(gameObject);
+
+		// initialise the stock/equipped arrays to the size of the gameItems array
+		numStock = new int[GameItems.gameItems.Length];
+		numEquipped = new int[GameItems.gameItems.Length];
+
+		// Load the previously saved inventory
 		LoadInventory ();
 	}
 
@@ -44,14 +66,14 @@ public class Inventory : MonoBehaviour
 	}
 
 
-	// Looks for an item in the list based on the item's type,
-	// and returns the list index to that item if found,  otherwise returns -1
-	public int FindItem<T>() where T : InventoryItem
+	// Looks for an item in the inventory list based on the given game item's index location,
+	// and returns the inventory list index to that item if found,  otherwise returns -1
+	public int FindItem(int gameItemIndex)
 	{
 
 		for (int i = 0; i < itemList.Count; ++i)
 		{
-			if (typeof(T) == itemList[i].GetType())
+			if (gameItemIndex == itemList[i])
 			{
 				return i;
 			}
@@ -61,145 +83,98 @@ public class Inventory : MonoBehaviour
 	}
 
 
-	// Looks for an item in the list based on the item's type,
-	// and returns the list index to that item if found,  otherwise returns -1
-	public int FindItem(Type itemType)
+	// Adds an item to the inventory list and sorts it, or increases it's stock by 1 if the item type is already in the inventory.
+	public void AddItem(int gameItemIndex)
 	{
 
-		for (int i = 0; i < itemList.Count; ++i)
-		{
-			if (itemType == itemList[i].GetType())
-			{
-				return i;
-			}
-		}
-
-		return -1;
-	}
-
-
-	// Adds an item to the inventory, or increases it's stock by 1 if the item type is already in the inventory.
-	public void AddItem<T>() where T : InventoryItem, new()
-	{
-		int itemIndex = FindItem <T>();
-
-		InventoryItem findItem = null;
-
-		if (itemIndex != -1)
-		{
-			findItem = itemList [itemIndex];
-		}
-
-		if (findItem == null)
-		{
-			//Add new item if item doesnt already exist in the inventory
-			T newItem = new T();
-			//= new itemType();
-			itemList.Add (newItem);
-
-			newItem.itemStock++;
-		}
-		else
-		{
-			findItem.itemStock++;
-		}
-
-	}
-
-
-	// Adds an item to the inventory, or increases it's stock by 1 if the item type is already in the inventory.
-	public void AddItem(Type itemType)
-	{
-		if (itemType.IsSubclassOf(typeof(InventoryItem)) == false)
+		if (gameItemIndex < 0 || gameItemIndex >= GameItems.gameItems.Length)
 		{
 			return;
 		}
 
-		int itemIndex = FindItem (itemType);
-
-		InventoryItem findItem = null;
-
-		if (itemIndex != -1)
+		int inventoryListIndex = FindItem (gameItemIndex);
+	
+		if (inventoryListIndex == -1)
 		{
-			findItem = itemList [itemIndex];
+			// Add new item to item list, and re-sort list
+			itemList.Add (gameItemIndex);
+			itemList.Sort ();
 		}
 
-		if (findItem == null)
-		{
-			//Add new item if item doesnt already exist in the inventory
-			InventoryItem newItem = Activator.CreateInstance(itemType) as InventoryItem;
-			 //= new itemType();
-			itemList.Add (newItem);
-
-			newItem.itemStock++;
-		}
-		else
-		{
-			findItem.itemStock++;
-		}
+		numStock[gameItemIndex]++;
 			
 	}
 
 
-	// Reduce the item stock amount by 1, and removes the item from the inventory if stock is fully depleted.
-	public void DepleteItem(int itemListIndex)
+	// Reduces the item stock amount by 1, and removes the item from the inventory if stock is fully depleted.
+	public void DepleteItem(int inventoryListIndex)
 	{
-		if (itemListIndex < 0 || itemListIndex >= itemList.Count)
+		if (inventoryListIndex < 0 || inventoryListIndex >= itemList.Count)
 		{
 			return;
 		}
 
-		itemList [itemListIndex].itemStock--;
+		numStock[ itemList [inventoryListIndex] ]--;
 
 		// Remove item if stock is fully depleted
-		if (itemList [itemListIndex].itemStock <= 0)
+		if (numStock[ itemList [inventoryListIndex] ] <= 0)
 		{
-			itemList.RemoveAt (itemListIndex);
+			itemList.RemoveAt (inventoryListIndex);
 		}
 	}
 
 
-	// Removes an item from the inventory, and sorts the list of inventory items
-	public void RemoveItem(int itemListIndex)
+	// Removes an item from the inventory, and re-sorts the list of inventory items
+	public void RemoveItem(int inventoryListIndex)
 	{
-		if (itemListIndex < 0 || itemListIndex >= itemList.Count)
+		if (inventoryListIndex < 0 || inventoryListIndex >= itemList.Count)
 		{
 			return;
 		}
 
-		itemList.RemoveAt (itemListIndex);
+		itemList.RemoveAt (inventoryListIndex);
 
 		itemList.Sort ();
 	}
 
-
-	// Returns a reference to the InventoryItem object at the specified index of the inventory
-	public InventoryItem GetInventoryItem(int itemListIndex)
+	// Gets the item location stored in the specified index of the inventory itemList array.
+	// Returns the index value for the item that is contained in the GameItems.gameItems[] array.
+	public int GetInventoryItem(int inventoryListIndex)
 	{
-		if (itemListIndex < 0 || itemListIndex >= itemList.Count)
+		if (inventoryListIndex < 0 || inventoryListIndex >= itemList.Count)
 		{
-			return null;
+			return -1;
 		}
 
-		return itemList [itemListIndex];
+		return itemList [inventoryListIndex];
 	}
 		
 
-	// Returns a reference to the InventoryItem object in the specified slot
-	public InventoryItem GetSlotItem(SlotTypes slotType)
+	// Gets the item location stored in the specified index of the itemSlot array.
+	// Returns the index value for the item that is contained in the GameItems.gameItems[] array.
+	public int GetSlotItem(SlotTypes slotType)
 	{
-
 		return itemSlot [(int)slotType];
 	}
 
 
-	// Equips an item to the specified slot
-	public void EquipSlot(SlotTypes slotType, InventoryItem item) 
+	// Equips an item from the inventory to the specified slot
+	public void EquipSlot(SlotTypes slotType, int inventoryListIndex) 
 	{
+		if (inventoryListIndex < 0 || inventoryListIndex >= itemList.Count)
+		{
+			return;
+		}
+
+		// Get an item reference from the gameItems[] array
+		InventoryItem item = GameItems.gameItems [itemList [inventoryListIndex]];
 
 		// Exit the function if item is not an equippable type, if number of item equipped >= item stock,
 		// or if the same item is already equipped in the specified slot
-		if (item.ItemType == InventoryItem.ItemTypes.POTION || item.numEquipped >= item.itemStock || itemSlot [(int)slotType] == item)
+		if (item.ItemType == InventoryItem.ItemTypes.POTION ||
+			item.ItemType == InventoryItem.ItemTypes.NONE ||
+			numEquipped[itemList [inventoryListIndex]] >= numStock[itemList [inventoryListIndex]] || 
+			itemSlot [(int)slotType] == itemList [inventoryListIndex])
 		{
 			return;
 		}
@@ -210,21 +185,22 @@ public class Inventory : MonoBehaviour
 		{
 			if (item.ItemType == InventoryItem.ItemTypes.WEAPON_ONE_HANDED)
 			{
-				//Equip slot with a single handed weapon
+				// Unequip current slot and Equip slot with a new single handed weapon
 				UnEquipSlot(slotType);
-				itemSlot [(int)slotType] = item;
-				itemSlot [(int)slotType].numEquipped++;
+				itemSlot [(int)slotType] = itemList [inventoryListIndex];
+				numEquipped[itemList [inventoryListIndex]]++;
 			}
 			else if (item.ItemType == InventoryItem.ItemTypes.WEAPON_TWO_HANDED)
 			{
-				// Equip both hands with the same weapon if it's a 2 handed weapon
+				// Unequip both hand slots if item is a 2 handed weapon,
 				UnEquipSlot(SlotTypes.WEAPON_LEFT);
 				UnEquipSlot(SlotTypes.WEAPON_RIGHT);
 
-				itemSlot [(int)SlotTypes.WEAPON_LEFT] = item;
-				itemSlot [(int)SlotTypes.WEAPON_RIGHT] = item;
+				// Equip both hands with the new weapon 2 handed weapon
+				itemSlot [(int)SlotTypes.WEAPON_LEFT] = itemList [inventoryListIndex];
+				itemSlot [(int)SlotTypes.WEAPON_RIGHT] = itemList [inventoryListIndex];
 
-				itemSlot [(int)slotType].numEquipped++;
+				numEquipped[itemList [inventoryListIndex]]++;
 			}
 		}
 		else
@@ -233,20 +209,20 @@ public class Inventory : MonoBehaviour
 			if (slotType == SlotTypes.ARMOUR_HEAD && item.ItemType == InventoryItem.ItemTypes.ARMOUR_HEAD)
 			{
 				UnEquipSlot(slotType);
-				itemSlot [(int)slotType] = item;
-				itemSlot [(int)slotType].numEquipped++;
+				itemSlot [(int)slotType] = itemList [inventoryListIndex];
+				numEquipped[itemList [inventoryListIndex]]++;
 			}
 			else if (slotType == SlotTypes.ARMOUR_BODY && item.ItemType == InventoryItem.ItemTypes.ARMOUR_BODY)
 			{
 				UnEquipSlot(slotType);
-				itemSlot [(int)slotType] = item;
-				itemSlot [(int)slotType].numEquipped++;
+				itemSlot [(int)slotType] = itemList [inventoryListIndex];
+				numEquipped[itemList [inventoryListIndex]]++;
 			}
 			else if (slotType == SlotTypes.ARMOUR_MISC && item.ItemType == InventoryItem.ItemTypes.ARMOUR_MISC)
 			{
 				UnEquipSlot(slotType);
-				itemSlot [(int)slotType] = item;
-				itemSlot [(int)slotType].numEquipped++;
+				itemSlot [(int)slotType] = itemList [inventoryListIndex];
+				numEquipped[itemList [inventoryListIndex]]++;
 			}
 		}
 
@@ -256,56 +232,59 @@ public class Inventory : MonoBehaviour
 	// Removes the item from the specified slot.
 	public void UnEquipSlot(SlotTypes slotType)
 	{
-		if (itemSlot [(int)slotType] != null)
+
+		// if current slot item != None
+		if (itemSlot [(int)slotType] != 0)
 		{
-			itemSlot [(int)slotType].numEquipped--;
+			// decrement the equipped number
+			numEquipped[itemSlot [(int)slotType]]--;
 
 			// Unequip both hand slots if item is a 2 handed weapon, else unequip specified slot
-			if (itemSlot [(int)slotType].ItemType == InventoryItem.ItemTypes.WEAPON_TWO_HANDED)
+			if (GameItems.gameItems[itemSlot [(int)slotType]].ItemType == InventoryItem.ItemTypes.WEAPON_TWO_HANDED)
 			{
-				itemSlot [(int)SlotTypes.WEAPON_LEFT] = null;
-				itemSlot [(int)SlotTypes.WEAPON_RIGHT] = null;
+				// Set both hand slots to item "none"
+				itemSlot [(int)SlotTypes.WEAPON_LEFT] = 0;
+				itemSlot [(int)SlotTypes.WEAPON_RIGHT] = 0;
 			}
 			else
 			{
-				itemSlot [(int)slotType] = null;
+				// Set selected slot to item "none"
+				itemSlot [(int)slotType] = 0;
 			}
 		}
 	}
 
-	// Add functionality to load inventory and slots !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+	// Load previously saved inventory/slot data
 	public void LoadInventory()
 	{
 		int inventoryCount = 0;
 
-		//Check how many inventory items were saved
-		if(PlayerPrefs.HasKey("Inventory_Count") == true)
+		//Check how many inventory item elements that were saved
+		if(PlayerPrefs.HasKey("InventoryCount") == true)
 		{
-			inventoryCount = PlayerPrefs.GetInt ("Inventory_Count");
+			inventoryCount = PlayerPrefs.GetInt ("InventoryCount");
 		}
 
 		// Load the saved inventory items and add them back to the item list
 		for (int i = 0; i < inventoryCount; ++i)
 		{
-			string itemName = PlayerPrefs.GetString ("ItemType" + i);
+			int gameItemIndex = PlayerPrefs.GetInt ("ItemType" + i);
 
-			Type itemType = Type.GetType (itemName);
-
-			AddItem(itemType);
-
-			itemList[i].itemStock = PlayerPrefs.GetInt ("ItemStock" + i);
+			AddItem (gameItemIndex);
 		}
 
+		//Load the array of inventory stock values
+		for (int i = 0; i < numStock.Length; ++i)
+		{
+			numStock[i] = PlayerPrefs.GetInt ("ItemStock" + i);
+		}
+
+		// Load slot data and re-equip the items
 		for (int i = 0; i < itemSlot.Length; ++i)
 		{
-			string slotItem = PlayerPrefs.GetString ("SlotItem" + i);
+			int gameItemIndex = PlayerPrefs.GetInt ("SlotItem" + i);
 
-			int findIndex = FindItem (Type.GetType (slotItem));
-
-			if (findIndex != -1)
-			{
-				EquipSlot ((SlotTypes)i, GetInventoryItem (findIndex));
-			}
+			EquipSlot ((SlotTypes)i, FindItem(gameItemIndex));
 		}
 
 	}
@@ -314,27 +293,24 @@ public class Inventory : MonoBehaviour
 	{
 
 		//Save how many inventory items there are in the item list
-		PlayerPrefs.SetInt ("Inventory_Count", itemList.Count);
+		PlayerPrefs.SetInt ("InventoryCount", itemList.Count);
 
 		//Save the list of inventory items
 		for (int i = 0; i < itemList.Count; ++i)
 		{
-			PlayerPrefs.SetString ("ItemType" + i, itemList [i].GetType().ToString());
-
-			PlayerPrefs.SetInt ("ItemStock" + i, itemList [i].itemStock);
+			PlayerPrefs.SetInt ("ItemType" + i, itemList [i]);
 		}
 
-		//Save which items are equipped
+		//Save the array of inventory stock values
+		for (int i = 0; i < numStock.Length; ++i)
+		{
+			PlayerPrefs.SetInt ("ItemStock" + i, numStock [i]);
+		}
+
+		//Save the array of slot items
 		for (int i = 0; i < itemSlot.Length; ++i)
 		{
-			if (itemSlot [i] != null)
-			{
-				PlayerPrefs.SetString ("SlotItem" + i, itemSlot [i].GetType ().ToString ());
-			}
-			else
-			{
-				PlayerPrefs.SetString ("SlotItem" + i, "Null");
-			}
+			PlayerPrefs.SetInt ("SlotItem" + i, itemSlot [i]);
 		}
 
 		//If true, the data will be saved permanently to the disk, rather than in memory

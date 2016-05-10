@@ -20,7 +20,7 @@ public class InventoryMenu : MonoBehaviour
 	[SerializeField]
 	private Text itemStats = null;
 
-	[SerializeField]
+
 	private Inventory inventoryRef = null;
 
 
@@ -32,11 +32,10 @@ public class InventoryMenu : MonoBehaviour
 		// For Testing only. If inventory is empty, Add some test items and save inventory
 		if (inventoryRef.ItemListCount == 0)
 		{
-			inventoryRef.AddItem <ItemToothPick> ();
-			inventoryRef.AddItem <ItemToothPick> ();
-			inventoryRef.AddItem <ItemPencil> ();
-			inventoryRef.AddItem <ItemPencil> ();
-			inventoryRef.AddItem <ItemFork> ();
+			for(int i = 1; i < GameItems.gameItems.Length; ++i)
+			{
+				inventoryRef.AddItem (i);
+			}
 
 			inventoryRef.SaveInventory (true);
 		}
@@ -46,13 +45,12 @@ public class InventoryMenu : MonoBehaviour
 		OnItemSelect ();
 		RefreshSlotText();
 	}
-
-
+		
 	void LoadItemMenu()
 	{
 		GameObject toggleFirst = Resources.Load("Prefabs/UI_Toggle_Button") as GameObject;
 
-		toggleFirst.GetComponentInChildren<Text> ().text = inventoryRef.GetInventoryItem (0).ItemName;
+		toggleFirst.GetComponentInChildren<Text> ().text = GameItems.gameItems[inventoryRef.GetInventoryItem (0)].ItemName;
 
 		for (int i = 0; i < inventoryRef.ItemListCount; ++i)
 		{
@@ -63,7 +61,7 @@ public class InventoryMenu : MonoBehaviour
 
 			toggleRect.anchoredPosition += new Vector2 (0, -(i*25));
 
-			toggleObject.GetComponentInChildren<Text> ().text = inventoryRef.GetInventoryItem (i).ItemName;
+			toggleObject.GetComponentInChildren<Text> ().text = GameItems.gameItems[inventoryRef.GetInventoryItem (i)].ItemName;
 
 			itemMenu.toggleButtons.Add (toggleObject.GetComponent<Toggle>());
 		}
@@ -71,18 +69,21 @@ public class InventoryMenu : MonoBehaviour
 		itemMenu.ToggleInit ();
 	}
 
-
 	private string UpdateStats(InventoryItem item)
 	{
-		string text;
+		string text = "";
 
-		text = "Stock : " + item.itemStock + "\t|\tEquipped : " + item.numEquipped + "\n";
+		if (inventoryRef.GetInventoryItem (itemMenu.SelectedToggle) != 0)
+		{
+			text += "Stock : " + inventoryRef.NumStock (inventoryRef.GetInventoryItem (itemMenu.SelectedToggle)) +
+			"\t|\tEquipped : " + inventoryRef.NumEquipped (inventoryRef.GetInventoryItem (itemMenu.SelectedToggle)) + "\n";
 
-		text += "\nAttack : \t\t+" + item.Attack;
-		text += "\nDefence : \t+" + item.Defence;
-		text += "\nSpeed : \t\t+" + item.Speed;
-		text += "\nLuck : \t\t\t+" + item.Luck;
-		text += "\nHealth : \t\t+" + item.Health;
+			text += "\nAttack : \t\t+" + item.Attack;
+			text += "\nDefence : \t+" + item.Defence;
+			text += "\nSpeed : \t\t+" + item.Speed;
+			text += "\nLuck : \t\t\t+" + item.Luck;
+			text += "\nHealth : \t\t+" + item.Health;
+		}
 
 		return text;
 	}
@@ -91,24 +92,26 @@ public class InventoryMenu : MonoBehaviour
 	{
 		//Show selected Item stats on screen
 
-		if (inventoryRef.GetInventoryItem (itemMenu.SelectedToggle) != null)
+		if (itemMenu.SelectedToggle < inventoryRef.ItemListCount && inventoryRef.GetInventoryItem (itemMenu.SelectedToggle) != 0)
 		{
-			InventoryItem item = inventoryRef.GetInventoryItem (itemMenu.SelectedToggle);
+			InventoryItem item = GameItems.gameItems[inventoryRef.GetInventoryItem (itemMenu.SelectedToggle)];
 
 			itemDescription.text = item.ItemDescription + "\n\n[" + item.ItemType.ToString ().ToLower() + "]";
 		}
+		else
+		{
+			itemDescription.text = "";
+		}
 
-		itemStats.text = UpdateStats (inventoryRef.GetInventoryItem(itemMenu.SelectedToggle));
+		itemStats.text = UpdateStats (GameItems.gameItems[inventoryRef.GetInventoryItem(itemMenu.SelectedToggle)]);
 	}
-
-
 
 	public void RefreshSlotText()
 	{
 
 		for (int i = 0; i < slotMenu.toggleButtons.Count; ++i)
 		{
-			InventoryItem item = inventoryRef.GetSlotItem ((Inventory.SlotTypes)i);
+			InventoryItem item = GameItems.gameItems[inventoryRef.GetSlotItem ((Inventory.SlotTypes)i)];
 
 			if(item != null)
 			{
@@ -123,38 +126,25 @@ public class InventoryMenu : MonoBehaviour
 			
 	}
 
-
-
 	public void OnEquipButtonPress()
 	{
+		inventoryRef.EquipSlot ((Inventory.SlotTypes)slotMenu.SelectedToggle, itemMenu.SelectedToggle);
 
-		if (inventoryRef.GetInventoryItem (itemMenu.SelectedToggle) != null)
-		{
-			inventoryRef.EquipSlot ((Inventory.SlotTypes)slotMenu.SelectedToggle, inventoryRef.GetInventoryItem (itemMenu.SelectedToggle));
-
-			RefreshSlotText ();
-		}
-
+		RefreshSlotText ();
 	}
 
 	public void OnUnEquipButtonPress()
 	{
-		if (inventoryRef.GetSlotItem ((Inventory.SlotTypes)slotMenu.SelectedToggle) != null)
-		{
-			inventoryRef.UnEquipSlot ((Inventory.SlotTypes)slotMenu.SelectedToggle);
-		}
+		inventoryRef.UnEquipSlot ((Inventory.SlotTypes)slotMenu.SelectedToggle);
 			
 		RefreshSlotText ();
 	}
 
 	public void OnMenuExit()
 	{
-		
-	inventoryRef.SaveInventory (true);
+		inventoryRef.SaveInventory (true);
 
-        SceneManager.LoadScene("OptionsMenu");
-        //SceneManager.UnloadScene (SceneManager.GetActiveScene ().buildIndex);
-
+		SceneManager.LoadScene("OptionsMenu");
     }
 
 	// Update is called once per frame
