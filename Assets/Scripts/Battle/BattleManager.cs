@@ -115,11 +115,11 @@ public class BattleManager : MonoBehaviour {
 
     }
 
+    //Takes user back to Main Menu
     public void ChooseForfeit()
     {
-        if (_GameManager.instance.LoseLife())
-        {
-            GameObject.Find("FadeScreen").GetComponent<SceneFadeInAndOut>().LoadNewScene("MainMenu");
-        }
+        hasLost = true;
+        GameOn = false;
+        
     }
 }
