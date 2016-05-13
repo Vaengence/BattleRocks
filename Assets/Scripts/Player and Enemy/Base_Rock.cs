@@ -7,7 +7,11 @@ public abstract class Base_Rock : MonoBehaviour {
 
     protected float attack, defense, speed, luck, maxHealth, currentHealth;
     protected float finalDamageOutput;
+    //Only applies to Enemy Rocks
+    //This is the amount of money you get when you defea them
+    public int currencyWorth;
 
+    //Handle health is only called when the current health is changed
     public float CurrentHealth
     {
         get { return currentHealth; }
@@ -23,9 +27,7 @@ public abstract class Base_Rock : MonoBehaviour {
     protected string rockName;
     protected string rockDescription;
 
-    protected string SpriteID;
-
-
+    //Getters to compare stats in the battle
     public float Defense{get { return defense; }}
     public float Speed { get { return speed; } }
     public float Damage { get { return finalDamageOutput; } }
@@ -53,7 +55,6 @@ public abstract class Base_Rock : MonoBehaviour {
         healthBar.value = currentHealth;
         Fill.color = Color.Lerp(minHealthColour, maxHealthColour, 
                                (float)currentHealth / maxHealth);
-
     }
 
 }

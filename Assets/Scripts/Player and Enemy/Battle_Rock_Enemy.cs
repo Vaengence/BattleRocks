@@ -10,11 +10,12 @@ public class Battle_Rock_Enemy : Base_Rock {
 
     public Text enemyHealthText;
 
+
     // Use this for initialization
     public void Start ()
     {
 
-        
+        currencyWorth = 200;
 
         maxHealth = 50;
         currentHealth = maxHealth;
