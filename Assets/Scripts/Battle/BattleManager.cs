@@ -32,6 +32,7 @@ public class BattleManager : MonoBehaviour {
         playerRock.GetComponent<Battle_Rock_Player>().Start();
         enemyRock.GetComponent<Battle_Rock_Enemy>().Start();
 
+        _MusicManager.FindObjectOfType<_MusicManager>().ChangeMusic(_MusicManager.TypesOfMusic.BATTLE_SCENE);
     }
 	
 	// Update is called once per frame

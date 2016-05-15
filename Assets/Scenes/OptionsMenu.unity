@@ -191,7 +191,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 21300000, guid: b0e8bb3e2090c7a43b7541dc740670cb, type: 3}
+  m_Sprite: {fileID: 21300000, guid: b2866c369e90c4e45b8085e1c9e36c71, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -312,7 +312,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 21300000, guid: 16b199b7c69fa504393173f14f00ccde, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 6e402ac96913b36439968ac67729ff19, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -338,8 +338,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sprites:
-  - {fileID: 21300000, guid: 16b199b7c69fa504393173f14f00ccde, type: 3}
-  - {fileID: 21300000, guid: ec73da5764afee344a2f28972922173e, type: 3}
+  - {fileID: 21300000, guid: 6e402ac96913b36439968ac67729ff19, type: 3}
+  - {fileID: 21300000, guid: fa94b3ec98714d34c895bfbdf6887d1d, type: 3}
 --- !u!1 &523449756
 GameObject:
   m_ObjectHideFlags: 0
@@ -484,7 +484,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 5793a3d702e09469c91d92cd739bad96, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 99fe5a612ff30b24baf9227cc47f4228, type: 3}
   m_Color: {r: 0, g: 0, b: 0, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -769,7 +769,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 21300000, guid: 77ac0f0135b1a3a46940c3605d52df60, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 359fd9752a9e7084fba04a766249145d, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -795,8 +795,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sprites:
-  - {fileID: 21300000, guid: 77ac0f0135b1a3a46940c3605d52df60, type: 3}
-  - {fileID: 21300000, guid: 408a62f225163fa40a1908b23d75d236, type: 3}
+  - {fileID: 21300000, guid: 359fd9752a9e7084fba04a766249145d, type: 3}
+  - {fileID: 21300000, guid: b8d6d749a3f05ad41b7d56f86ac17b0b, type: 3}
 --- !u!1001 &1615415277
 Prefab:
   m_ObjectHideFlags: 0
@@ -864,7 +864,7 @@ AudioListener:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 2067160918}
-  m_Enabled: 0
+  m_Enabled: 1
 --- !u!124 &2067160920
 Behaviour:
   m_ObjectHideFlags: 0
