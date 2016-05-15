@@ -366,7 +366,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 21300000, guid: 6ca5b3030f689f24a85d0869be61ef27, type: 3}
+  m_Sprite: {fileID: 21300000, guid: cf8e5ea4a4d2759479fd06fdfcf269e4, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -613,7 +613,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 5793a3d702e09469c91d92cd739bad96, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 99fe5a612ff30b24baf9227cc47f4228, type: 3}
   m_Color: {r: 0, g: 0, b: 0, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -729,10 +729,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 1689480441}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: af6023528d83aa841974781a3f5cf88e, type: 3}
+  m_Script: {fileID: 11500000, guid: 891ca3a588937074e9a40b21bc5a5794, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  StoreIconPrefab: {fileID: 11404104, guid: 16131940ab38dcd499c2edd327dd2b58, type: 2}
+  StoreIconPrefab: {fileID: 11404104, guid: 8cf9c54d1a066c047a670c996165d4e2, type: 2}
   ButtonSprites: []
 --- !u!1 &1790198327
 GameObject:
