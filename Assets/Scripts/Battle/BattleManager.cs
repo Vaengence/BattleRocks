@@ -44,11 +44,6 @@ public class BattleManager : MonoBehaviour {
         {
             BattleResults();
         }
-
-        if(badTempBool)
-        { 
-            GameObject.Find("FadeScreen").GetComponent<SceneFadeInAndOut>().LoadNewScene("MenuMain");
-        }
         
 	}
 
@@ -111,7 +106,8 @@ public class BattleManager : MonoBehaviour {
         }
 
         badTempBool = true;
-        
+        GameObject.Find("FadeScreen").GetComponent<SceneFadeInAndOut>().LoadNewScene("MenuMain");
+
     }
 
     public void ChooseSpecial()

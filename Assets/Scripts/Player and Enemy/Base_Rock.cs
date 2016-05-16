@@ -43,7 +43,7 @@ public abstract class Base_Rock : MonoBehaviour {
 	// Update is called once per frame
 	void Update ()
     {
-     
+       
 	}
 
     
