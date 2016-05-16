@@ -1,36 +1,50 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 using System.Collections;
+using System;
 
 public class Battle_Rock_Enemy : Base_Rock {
 
-	// Use this for initialization
-	void Start ()
+    [SerializeField]
+    public GameObject playerRock;
+
+    public Text enemyHealthText;
+
+
+    // Use this for initialization
+    public void Start ()
     {
-        cachedY = healthTranform.position.y;
-        maxXValue = healthTranform.position.x;
-        minXValue = healthTranform.position.x - healthTranform.rect.width;
+
+        currencyWorth = 200;
+
+        maxHealth = 50;
+        currentHealth = maxHealth;
+        attack = 15;
+        defense = 5;
+        speed = 2;
+
+        healthBar.maxValue = maxHealth;
+        healthBar.value = maxHealth;
     }
-	
-	// Update is called once per frame
-	void Update ()
+
+    void Update()
     {
-        HandleHealth();
+        
     }
+
 
     public void Combat()
     {
-        GameObject player = GameObject.Find("Battle_Rock_Player");
-        Battle_Rock_Enemy thePlayer = player.GetComponent<Battle_Rock_Enemy>();
+        System.Random battleRandomizer = new System.Random();
+        float battleRan = battleRandomizer.Next(-10, 10);
 
-        finalDamageOutput = (attack - thePlayer.Defense) * (speed / thePlayer.Speed) + luck;
+        finalDamageOutput = (attack - playerRock.GetComponent<Battle_Rock_Player>().Defense) *
+                            (speed / playerRock.GetComponent<Battle_Rock_Player>().Speed) + luck + battleRan;
 
     }
 
     public void ResolveCombat()
     {
-        GameObject player = GameObject.Find("Battle_Rock_Player");
-        Battle_Rock_Enemy thePlayer = player.GetComponent<Battle_Rock_Enemy>();
-
-        this.CurrentHealth -= thePlayer.Damage;
+        this.CurrentHealth -= playerRock.GetComponent<Battle_Rock_Player>().Damage;
     }
 }

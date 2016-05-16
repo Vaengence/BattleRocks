@@ -1,7 +1,7 @@
 ﻿// Author: Michael Stojsic 2016.
 // NOTE: - Attach this script to the 'Game Manager' in the first loaded scene, it will then live throughout each scene from there.
 //       - For debugging you can place a Gamemanger in every scene but note any changes made to the non _instance scene GameManagers MUST be updated to the _instance one in the first scene,
-//         as the frist scenes GameManager will be the _instacne when the player plays the game and will delete any non _instance GameManagers if comes across.
+//         as the first scenes GameManager will be the _instance when the player plays the game and will delete any non _instance GameManagers if comes across.
 //       - remember to set execution order, go to unity (edit -> Project Settings -> Script Execution Order -> Set GameManger to -100)!!!
 //         so GameManager runs a little earlier than all other scripts in the game, 
 //         otherwise values taken from _GameManager.instance may not be initialised yet and result in incorrect values used.
@@ -12,7 +12,7 @@ using UnityEngine.SceneManagement;
 public class _GameManager : MonoBehaviour
 {
     // ---------------------------- CREATE AS INSTANCE ---------------------------- \\
-    // - This section checks if a current _instacne of GameManager exists, if it does it returns the _instance,
+    // - This section checks if a current _instance of GameManager exists, if it does it returns the _instance,
     //   otherwise it creates a new GameManger in the current scene called "GameManager" 
     //   sets it to the _instance of Gamamanger and adds this _GameManager script to it, 
     //   essentailly making it the _instance.
@@ -78,6 +78,11 @@ public class _GameManager : MonoBehaviour
         }
         LoadGame();                                             // - Call LoadGame to Load Save Data.
         DontDestroyOnLoad(gameObject);                          // - Prevents this object being destoried between scenes.
+
+        // For Testing
+        playerName = "Michael";                                 
+        currentLives = 10;
+
     }
     // ---------------------------- UPDATE ----------------------------
     void Update () 
@@ -144,5 +149,21 @@ public class _GameManager : MonoBehaviour
     public void ResetGame()
     {
         // NOTE: ADD - add any variable that need to be reset at end of level
+    }
+
+    // This Function handles the deletion of the life internally to the game manager and will return True if Successful, otherwise will return false, indicating
+    // that the player has run out of lives
+    public bool LoseLife()  
+    {
+        if (currentLives > 0)
+        {
+            currentLives--;
+            return true;
+        }
+        else
+        {
+            currentLives--;
+            return false;
+        }
     }
 }
