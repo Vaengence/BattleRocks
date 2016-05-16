@@ -19,6 +19,7 @@ public class BattleManager : MonoBehaviour {
     private bool hasWon;
     private bool hasLost;
     private bool isTie;
+    private bool badTempBool;
 
     // Use this for initialization
     void Start ()
@@ -28,10 +29,12 @@ public class BattleManager : MonoBehaviour {
         hasWon = false;
         hasLost = false;
         isTie = false;
+        badTempBool = false;
          
         playerRock.GetComponent<Battle_Rock_Player>().Start();
         enemyRock.GetComponent<Battle_Rock_Enemy>().Start();
 
+        
     }
 	
 	// Update is called once per frame
@@ -41,6 +44,7 @@ public class BattleManager : MonoBehaviour {
         {
             BattleResults();
         }
+        
 	}
 
   
@@ -101,16 +105,12 @@ public class BattleManager : MonoBehaviour {
             rightSideText.text = "Tie!";
         }
 
-        
-        GameObject.Find("FadeScreen").GetComponent<SceneFadeInAndOut>().LoadNewScene("MainMenu");
+        badTempBool = true;
+        GameObject.Find("FadeScreen").GetComponent<SceneFadeInAndOut>().LoadNewScene("MenuMain");
+
     }
 
     public void ChooseSpecial()
-    {
-
-    }
-
-    public void ChooseDefense()
     {
 
     }
