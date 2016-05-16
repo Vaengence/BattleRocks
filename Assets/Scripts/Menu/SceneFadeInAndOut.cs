@@ -42,6 +42,15 @@ public class SceneFadeInAndOut : MonoBehaviour
             // ... reload the scene.
             //Debug.Log("Testing screen load.");
             SceneManager.LoadScene(sceneNameToLoad);
+
+            if(sceneNameToLoad.Contains("Battle"))
+            {
+                _MusicManager.FindObjectOfType<_MusicManager>().ChangeMusic(_MusicManager.TypesOfMusic.BATTLE_SCENE);
+            }
+            else if(sceneNameToLoad.Contains("Menu"))
+            {
+                _MusicManager.FindObjectOfType<_MusicManager>().ChangeMusic(_MusicManager.TypesOfMusic.GENERAL_BACKGROUND);
+            }
 		}
 		// Lerp the colour of the texture between itself and white.
         GetComponent<SpriteRenderer>().color = Color.Lerp(GetComponent<SpriteRenderer>().color, Color.black, fadeSpeed * Time.deltaTime);

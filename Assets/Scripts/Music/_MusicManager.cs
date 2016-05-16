@@ -69,6 +69,8 @@ public class _MusicManager : MonoBehaviour {
                 Destroy(gameObject);                            // - Destory this extra one.
             }
         }
+
+        DontDestroyOnLoad(gameObject);
     }
 
     // Use this for initialization
@@ -83,6 +85,7 @@ public class _MusicManager : MonoBehaviour {
         {
             SoundLookUp.Add(i, SoundFiles[i]);
         }
+
 
         MasterAudioStream = GetComponent<AudioSource>();
         MusicMaster = TypesOfMusic.GENERAL_BACKGROUND;
@@ -127,7 +130,7 @@ public class _MusicManager : MonoBehaviour {
         if (MasterAudioStream.volume >= 0.0f)
         {
             float CurrentVolume = MasterAudioStream.volume;
-            CurrentVolume -= 0.1f * Time.deltaTime;
+            CurrentVolume -= 1.0f * Time.deltaTime;
 
             if (CurrentVolume < 0.0f)
             {
@@ -154,7 +157,7 @@ public class _MusicManager : MonoBehaviour {
         if (MasterAudioStream.volume <= 1.0f)
         {
             float CurrentVolume = MasterAudioStream.volume;
-            CurrentVolume += 0.1f * Time.deltaTime;
+            CurrentVolume += 0.5f * Time.deltaTime;
 
             if (CurrentVolume > 1.0f)
             {
