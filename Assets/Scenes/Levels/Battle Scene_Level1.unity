@@ -1073,14 +1073,6 @@ Prefab:
       propertyPath: m_RootOrder
       value: 8
       objectReference: {fileID: 0}
-    - target: {fileID: 8260670, guid: e2abf2e2d89d1c5428ef4c2e9a32fcb3, type: 2}
-      propertyPath: panLevelCustomCurve.m_RotationOrder
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8260670, guid: e2abf2e2d89d1c5428ef4c2e9a32fcb3, type: 2}
-      propertyPath: reverbZoneMixCustomCurve.m_RotationOrder
-      value: 0
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: e2abf2e2d89d1c5428ef4c2e9a32fcb3, type: 2}
   m_IsPrefabParent: 0
@@ -1877,7 +1869,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 422986, guid: 3b221def5542a4342a314a98e02c62f7, type: 2}
       propertyPath: m_RootOrder
-      value: 6
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 11435688, guid: 3b221def5542a4342a314a98e02c62f7, type: 2}
       propertyPath: playerRock
