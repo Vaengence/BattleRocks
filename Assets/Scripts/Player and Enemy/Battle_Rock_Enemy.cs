@@ -38,8 +38,8 @@ public class Battle_Rock_Enemy : Base_Rock {
         System.Random battleRandomizer = new System.Random();
         float battleRan = battleRandomizer.Next(-10, 10);
 
-        finalDamageOutput = (attack - playerRock.GetComponent<Battle_Rock_Player>().Defense) *
-                            (speed / playerRock.GetComponent<Battle_Rock_Player>().Speed) + luck + battleRan;
+		finalDamageOutput = (attack - (playerRock.GetComponent<Battle_Rock_Player>().Defense + playerRock.GetComponent<Battle_Rock_Player>().SlotDefence)) *
+			(speed / (playerRock.GetComponent<Battle_Rock_Player>().Speed + playerRock.GetComponent<Battle_Rock_Player>().SlotSpeed)) + luck + battleRan;
 
     }
 
