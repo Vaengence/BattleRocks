@@ -32,16 +32,16 @@ public class ItemButton : MonoBehaviour {
 
         switch (MyItemInfo.ItemType)
         {
-            case InventoryItem.ItemTypes.ARMOUR_BODY:
-                ItemTypeDescription = "Body Armour";
+            case InventoryItem.ItemTypes.ARMOUR_EYE:
+                ItemTypeDescription = "Eye Armour";
                 break;
 
             case InventoryItem.ItemTypes.ARMOUR_HEAD:
                 ItemTypeDescription = "Head Armour";
                 break;
 
-            case InventoryItem.ItemTypes.ARMOUR_MISC:
-                ItemTypeDescription = "Other Armour";
+            case InventoryItem.ItemTypes.ARMOUR_MOUTH:
+                ItemTypeDescription = "Mouth Armour";
                 break;
 
             case InventoryItem.ItemTypes.NONE:
