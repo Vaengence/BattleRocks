@@ -87,6 +87,7 @@ public class StoreManager : MonoBehaviour {
             SuccessText.text = "Congratulations!\n" + "You bought a: \n" + Tester;
             Inventory.instance.AddItem(ItemIndex);
             _GameManager.instance.cashCurrency -= GameItems.gameItems[ItemIndex].ItemCost;
+            Inventory.instance.SaveInventory();
         }
     }
 
