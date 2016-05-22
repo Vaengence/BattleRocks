@@ -6,7 +6,7 @@ using System.Collections;
 public abstract class Base_Rock : MonoBehaviour {
 
     protected float attack, defense, speed, luck, maxHealth, currentHealth;
-    protected float finalDamageOutput;
+	protected float finalDamageOutput;
     //Only applies to Enemy Rocks
     //This is the amount of money you get when you defea them
     public int currencyWorth;

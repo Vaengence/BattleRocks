@@ -13,8 +13,8 @@ public class Inventory : MonoBehaviour
 		WEAPON_LEFT = 0,
 		WEAPON_RIGHT = 1,
 		ARMOUR_HEAD = 2,
-		ARMOUR_BODY = 3,
-		ARMOUR_MISC = 4
+		ARMOUR_MOUTH = 3,
+		ARMOUR_EYE = 4
 	}
 			
 	// An array for the 5 different item slots
@@ -212,13 +212,13 @@ public class Inventory : MonoBehaviour
 				itemSlot [(int)slotType] = itemList [inventoryListIndex];
 				numEquipped[itemList [inventoryListIndex]]++;
 			}
-			else if (slotType == SlotTypes.ARMOUR_BODY && item.ItemType == InventoryItem.ItemTypes.ARMOUR_BODY)
+			else if (slotType == SlotTypes.ARMOUR_MOUTH && item.ItemType == InventoryItem.ItemTypes.ARMOUR_MOUTH)
 			{
 				UnEquipSlot(slotType);
 				itemSlot [(int)slotType] = itemList [inventoryListIndex];
 				numEquipped[itemList [inventoryListIndex]]++;
 			}
-			else if (slotType == SlotTypes.ARMOUR_MISC && item.ItemType == InventoryItem.ItemTypes.ARMOUR_MISC)
+			else if (slotType == SlotTypes.ARMOUR_EYE && item.ItemType == InventoryItem.ItemTypes.ARMOUR_EYE)
 			{
 				UnEquipSlot(slotType);
 				itemSlot [(int)slotType] = itemList [inventoryListIndex];

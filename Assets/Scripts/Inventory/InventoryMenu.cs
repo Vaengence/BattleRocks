@@ -81,7 +81,7 @@ public class InventoryMenu : MonoBehaviour
 			text += "\nAttack : \t\t+" + item.Attack;
 			text += "\nDefence : \t+" + item.Defence;
 			text += "\nSpeed : \t\t+" + item.Speed;
-			text += "\nLuck : \t\t\t+" + item.Luck;
+			text += "\nLuck : \t\t+" + item.Luck;
 			text += "\nHealth : \t\t+" + item.Health;
 		}
 
