@@ -15,4 +15,9 @@ public class ItemButton : MonoBehaviour {
 
         ItemImage.sprite = InventoryItem;
     }
+
+    public void PlayMe()
+    {
+
+    }
 }
