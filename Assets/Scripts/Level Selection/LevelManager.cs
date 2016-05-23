@@ -19,6 +19,7 @@ public class LevelManager : MonoBehaviour {
     {
 
         //An extremely "Hacky" method for only displaying unlocked levels
+        //If the Level has been unlocked, display the UI button
 
         if (_GameManager.instance.unlockedLevels[2] == 1)
         {
