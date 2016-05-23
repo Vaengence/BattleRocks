@@ -51,6 +51,10 @@ public class SceneFadeInAndOut : MonoBehaviour
             {
                 _MusicManager.FindObjectOfType<_MusicManager>().ChangeMusic(_MusicManager.TypesOfMusic.CARTOON_STYLE_BACKGROUND);
             }
+            else
+            {
+                _MusicManager.FindObjectOfType<_MusicManager>().ChangeMusic(_MusicManager.TypesOfMusic.CARTOON_STYLE_BACKGROUND);
+            }
 		}
 		// Lerp the colour of the texture between itself and white.
         GetComponent<SpriteRenderer>().color = Color.Lerp(GetComponent<SpriteRenderer>().color, Color.black, fadeSpeed * Time.deltaTime);
@@ -72,12 +76,12 @@ public class SceneFadeInAndOut : MonoBehaviour
 			sceneStarting = false;
 		}
 	}
-	
-	public void LoadNewScene(string levelNameToLoad)
-	{
+
+    public void LoadNewScene(string levelNameToLoad)
+    {
         sceneNameToLoad = levelNameToLoad;
         GetComponent<SpriteRenderer>().enabled = true;// Make sure the texture is enabled.
         sceneStarting = false;
-		sceneEnding = true;
-	}
+        sceneEnding = true;
+    }
 }
